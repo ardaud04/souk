@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Souk — sell your old clothes in Dubai</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Archivo+Expanded:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --sand: #E8DCC8;
+    --terracotta: #B5491F;
+    --ink: #1A1410;
+    --warm-white: #FAF6EE;
+    --gold: #C9A227;
+    --terracotta-dark: #8f3815;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--warm-white);
+    color: var(--ink);
+    font-family: 'Source Serif 4', serif;
+    overflow-x: hidden;
+  }
+
+  .display {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .label {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 48px;
+    position: relative;
+    z-index: 10;
+  }
+  .logo {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  .logo span { color: var(--terracotta); }
+  .nav-tag {
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    padding: 60px 48px 100px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--terracotta);
+  }
+
+  h1 {
+    font-size: clamp(48px, 8vw, 104px);
+    line-height: 0.95;
+    margin-bottom: 32px;
+    max-width: 950px;
+  }
+  h1 .accent { color: var(--terracotta); }
+  h1 .outline {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ink);
+  }
+
+  .hero-sub {
+    font-size: 20px;
+    line-height: 1.5;
+    max-width: 540px;
+    color: var(--ink);
+    opacity: 0.85;
+    margin-bottom: 44px;
+  }
+
+  .hero-sub em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  /* ===== SIGNATURE: THE FLIP CARD ===== */
+  .signature-wrap {
+    position: absolute;
+    right: 48px;
+    top: 40px;
+    width: 280px;
+  }
+
+  .flip-card {
+    width: 100%;
+    height: 360px;
+    perspective: 1400px;
+    cursor: pointer;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s cubic-bezier(.4,0,.2,1);
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner {
+    transform: rotateY(180deg);
+  }
+  .flip-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+  }
+  .flip-front {
+    background: var(--sand);
+    border: 2px dashed rgba(26,20,16,0.25);
+  }
+  .flip-back {
+    background: var(--terracotta);
+    color: var(--warm-white);
+    transform: rotateY(180deg);
+  }
+  .flip-status {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .flip-front .flip-status { opacity: 0.5; }
+  .flip-icon {
+    font-size: 56px;
+    text-align: center;
+    margin: auto 0;
+  }
+  .flip-caption {
+    font-family: 'Archivo', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .flip-hint {
+    font-family: 'Archivo', sans-serif;
+    font-size: 10px;
+    opacity: 0.45;
+    text-align: center;
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== WAITLIST FORM ===== */
+  .waitlist {
+    display: flex;
+    gap: 0;
+    max-width: 460px;
+    border: 2px solid var(--ink);
+  }
+  .waitlist input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 18px 20px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    color: var(--ink);
+    outline: none;
+  }
+  .waitlist input::placeholder { color: rgba(26,20,16,0.45); }
+  .waitlist button {
+    border: none;
+    background: var(--ink);
+    color: var(--warm-white);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    padding: 0 28px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+  }
+  .waitlist button:hover { background: var(--terracotta); }
+
+  .waitlist-note {
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    opacity: 0.5;
+    margin-top: 14px;
+    text-transform: uppercase;
+  }
+
+  .success-msg {
+    display: none;
+    border: 2px solid var(--terracotta);
+    padding: 18px 20px;
+    max-width: 460px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== PROBLEM SECTION ===== */
+  .section {
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-dark {
+    background: var(--ink);
+    color: var(--warm-white);
+    max-width: 100%;
+  }
+  .section-dark .inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-eyebrow {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 20px;
+  }
+
+  .section h2 {
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.1;
+    max-width: 800px;
+    margin-bottom: 50px;
+  }
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(250,246,238,0.15);
+    border: 1px solid rgba(250,246,238,0.15);
+  }
+  .problem-cell {
+    background: var(--ink);
+    padding: 36px 28px;
+  }
+  .problem-cell .pc-label {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .problem-cell p {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--warm-white);
+    opacity: 0.85;
+  }
+
+  /* ===== HOW IT WORKS ===== */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .flow-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    border-top: 1px solid rgba(26,20,16,0.15);
+    padding: 36px 0;
+    align-items: start;
+    gap: 32px;
+  }
+  .flow-row:last-child { border-bottom: 1px solid rgba(26,20,16,0.15); }
+  .flow-num {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    color: var(--sand);
+    -webkit-text-stroke: 1.5px var(--terracotta);
+    color: transparent;
+  }
+  .flow-content h3 {
+    font-family: 'Archivo', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: none;
+  }
+  .flow-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.75;
+    max-width: 560px;
+  }
+
+  /* ===== FOOTER CTA ===== */
+  .footer-cta {
+    padding: 120px 48px;
+    text-align: center;
+    background: var(--sand);
+  }
+  .footer-cta h2 {
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 1;
+    margin-bottom: 36px;
+  }
+  .footer-cta .waitlist { margin: 0 auto; }
+  .footer-cta .success-msg { margin: 0 auto; }
+
+  footer {
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 900px) {
+    .signature-wrap { position: static; width: 100%; max-width: 280px; margin: 0 auto 48px; }
+    .hero { padding-top: 30px; }
+    nav { padding: 22px 24px; }
+    .section, .hero, .footer-cta { padding-left: 24px; padding-right: 24px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .waitlist { flex-direction: column; border: none; gap: 12px; }
+    .waitlist input { border: 2px solid var(--ink); }
+    .waitlist button { padding: 16px; }
+    .flow-row { grid-template-columns: 50px 1fr; gap: 16px; }
+    .flow-num { font-size: 28px; }
+    footer { flex-direction: column; gap: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flip-inner { transition: none; }
+  }
+
+  button:focus-visible, input:focus-visible {
+    outline: 3px solid var(--terracotta);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">souk<span>.</span></div>
+  <div class="nav-tag">Dubai · coming soon</div>
+</nav>
+
+<section class="hero">
+  <div class="signature-wrap">
+    <div class="flip-card" id="flipCard">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <div class="flip-status">In your cupboard</div>
+          <div class="flip-icon">👕</div>
+          <div>
+            <div class="flip-caption">Worn twice. Forgotten since.</div>
+            <div class="flip-hint">tap to flip</div>
+          </div>
+        </div>
+        <div class="flip-face flip-back">
+          <div class="flip-status">Sold</div>
+          <div class="flip-icon">💸</div>
+          <div>
+            <div class="flip-caption">AED 85 — paid out, picked up.</div>
+            <div class="flip-hint">tap to flip back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-eyebrow">
+    <div class="dot"></div>
+    <div class="label">Pre-loved clothing, traded properly</div>
+  </div>
+
+  <h1 class="display">Your wardrobe is<br><span class="accent">sitting there</span><br><span class="outline">doing nothing.</span></h1>
+
+  <p class="hero-sub">Souk is a marketplace for selling the clothes you've stopped wearing — list it, someone buys it, <em>it gets picked up.</em> No Dubizzle, no DMs, no meeting a stranger in a car park.</p>
+
+  <form class="waitlist" id="waitlistForm">
+    <input type="email" id="emailInput" placeholder="your@email.com" required>
+    <button type="submit">Join the waitlist</button>
+  </form>
+  <div class="success-msg" id="successMsg">You're on the list — we'll let you know when Souk opens.</div>
+  <div class="waitlist-note">No spam. One email when we launch.</div>
+</section>
+
+<section class="section section-dark">
+  <div class="inner">
+    <div class="section-eyebrow">The problem</div>
+    <h2>Selling old clothes in Dubai means choosing between three bad options.</h2>
+    <div class="problem-grid">
+      <div class="problem-cell">
+        <div class="pc-label">Dubizzle</div>
+        <p>Built for cars and furniture. Fashion listings get buried, nobody's actually browsing for clothes there.</p>
+      </div>
+      <div class="problem-cell">
+        <div class="pc-label">Instagram / WhatsApp</div>
+        <p>You're the customer service, the courier, and the payment processor. Most people give up after one sale.</p>
+      </div>
+      <div class="problem-cell">
+        <div class="pc-label">Pre-loved luxury apps</div>
+        <p>Built for designer bags and watches. If it's not a logo bag, it doesn't belong there.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-eyebrow">How it works</div>
+  <h2>List it. Someone buys it. It gets collected. You get paid.</h2>
+  <div class="flow">
+    <div class="flow-row">
+      <div class="flow-num display">01</div>
+      <div class="flow-content">
+        <h3>Photograph it, list it</h3>
+        <p>Snap a few photos, set a price, post it. Takes less time than writing the WhatsApp message you'd send instead.</p>
+      </div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-num display">02</div>
+      <div class="flow-content">
+        <h3>Someone buys it in-app</h3>
+        <p>Payment happens on Souk, not over a bank transfer with a stranger. The buyer's money is held until the item actually arrives.</p>
+      </div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-num display">03</div>
+      <div class="flow-content">
+        <h3>A rider collects it from your door</h3>
+        <p>No printing labels, no driving to a drop-off point. Someone comes to you, picks it up, takes it to the buyer.</p>
+      </div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-num display">04</div>
+      <div class="flow-content">
+        <h3>You get paid</h3>
+        <p>Once it's delivered, the money lands with you. Souk takes a small buyer protection fee — that's it, no listing fees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="footer-cta">
+  <h2 class="display">Be first<br>through the door.</h2>
+  <form class="waitlist" id="waitlistForm2">
+    <input type="email" id="emailInput2" placeholder="your@email.com" required>
+    <button type="submit">Join the waitlist</button>
+  </form>
+  <div class="success-msg" id="successMsg2">You're on the list — we'll let you know when Souk opens.</div>
+</section>
+
+<footer>
+  <div>Souk — Dubai</div>
+  <div>Coming soon</div>
+</footer>
+
+<script>
+  const flipCard = document.getElementById('flipCard');
+  flipCard.addEventListener('click', () => {
+    flipCard.classList.toggle('flipped');
+  });
+
+  function handleSubmit(formId, inputId, successId) {
+    const form = document.getElementById(formId);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.style.display = 'none';
+      document.getElementById(successId).style.display = 'block';
+    });
+  }
+  handleSubmit('waitlistForm', 'emailInput', 'successMsg');
+  handleSubmit('waitlistForm2', 'emailInput2', 'successMsg2');
+</script>
+
+</body>
+</html>

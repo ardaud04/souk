@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Souk — sell your old clothes in Dubai</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Archivo+Expanded:wght@700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --sand: #E8DCC8;
+    --terracotta: #B5491F;
+    --ink: #1A1410;
+    --warm-white: #FAF6EE;
+    --gold: #C9A227;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--warm-white);
+    color: var(--ink);
+    font-family: 'Source Serif 4', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  .display {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .label {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* LANDING NAV */
+  .landing-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 48px;
+    position: relative;
+    z-index: 10;
+  }
+  .landing-nav .logo {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+  }
+  .logo span { color: var(--terracotta); }
+  .landing-nav-right { display: flex; align-items: center; gap: 20px; }
+  .nav-tag {
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .demo-nav-btn {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    background: var(--terracotta);
+    color: var(--warm-white);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .demo-nav-btn:hover { background: #8f3815; }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 64px;
+    align-items: center;
+    padding: 60px 48px 90px;
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+  .hero-main { min-width: 0; }
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--terracotta);
+  }
+  h1 {
+    font-size: clamp(44px, 6.2vw, 84px);
+    line-height: 0.95;
+    margin-bottom: 32px;
+  }
+  h1 .accent { color: var(--terracotta); }
+  h1 .outline {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ink);
+  }
+  .hero-sub {
+    font-size: 20px;
+    line-height: 1.5;
+    max-width: 540px;
+    color: var(--ink);
+    opacity: 0.85;
+    margin-bottom: 44px;
+  }
+  .hero-sub em { font-style: italic; color: var(--terracotta); }
+  .hero-ctas { display: flex; flex-direction: column; gap: 16px; }
+  .try-demo-link {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    cursor: pointer;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.2s;
+    width: fit-content;
+  }
+  .try-demo-link:hover { gap: 14px; }
+
+  /* STATS STRIP */
+  .stats-strip {
+    border-top: 1px solid rgba(26,20,16,0.12);
+    border-bottom: 1px solid rgba(26,20,16,0.12);
+    background: var(--warm-white);
+  }
+  .stats-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .stat-cell {
+    padding: 36px 28px;
+    border-left: 1px solid rgba(26,20,16,0.12);
+  }
+  .stat-cell:first-child { border-left: none; }
+  .stat-num {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: clamp(26px, 3vw, 38px);
+    color: var(--terracotta);
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .stat-desc {
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    opacity: 0.65;
+  }
+
+  /* FLIP CARD */
+  .signature-wrap {
+    width: 100%;
+  }
+  .flip-card {
+    width: 100%;
+    height: 360px;
+    perspective: 1400px;
+    cursor: pointer;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s cubic-bezier(.4,0,.2,1);
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+  }
+  .flip-front {
+    background: var(--sand);
+    border: 2px dashed rgba(26,20,16,0.25);
+  }
+  .flip-back {
+    background: var(--terracotta);
+    color: var(--warm-white);
+    transform: rotateY(180deg);
+  }
+  .flip-status {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .flip-front .flip-status { opacity: 0.5; }
+  .flip-icon { font-size: 56px; text-align: center; margin: auto 0; }
+  .flip-caption { font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; }
+  .flip-hint {
+    font-family: 'Archivo', sans-serif;
+    font-size: 10px;
+    opacity: 0.45;
+    text-align: center;
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  /* WAITLIST */
+  .waitlist {
+    display: flex;
+    gap: 0;
+    max-width: 460px;
+    border: 2px solid var(--ink);
+  }
+  .waitlist input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 18px 20px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    color: var(--ink);
+    outline: none;
+  }
+  .waitlist input::placeholder { color: rgba(26,20,16,0.45); }
+  .waitlist button {
+    border: none;
+    background: var(--ink);
+    color: var(--warm-white);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    padding: 0 28px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    white-space: nowrap;
+  }
+  .waitlist button:hover { background: var(--terracotta); }
+  .waitlist-note {
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    opacity: 0.5;
+    margin-top: 14px;
+    text-transform: uppercase;
+  }
+  .success-msg {
+    display: none;
+    border: 2px solid var(--terracotta);
+    padding: 18px 20px;
+    max-width: 460px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 100px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-dark {
+    background: var(--ink);
+    color: var(--warm-white);
+    max-width: 100%;
+  }
+  .section-dark .inner { max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 20px;
+  }
+  .section h2 {
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.1;
+    max-width: 800px;
+    margin-bottom: 50px;
+  }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: rgba(250,246,238,0.15);
+    border: 1px solid rgba(250,246,238,0.15);
+  }
+  .problem-cell { background: var(--ink); padding: 36px 28px; }
+  .problem-cell .pc-label {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .problem-cell p {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--warm-white);
+    opacity: 0.85;
+  }
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    border-top: 1px solid rgba(26,20,16,0.15);
+    padding: 36px 0;
+    align-items: start;
+    gap: 32px;
+  }
+  .flow-row:last-child { border-bottom: 1px solid rgba(26,20,16,0.15); }
+  .flow-num {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    -webkit-text-stroke: 1.5px var(--terracotta);
+    color: transparent;
+  }
+  .flow-content h3 {
+    font-family: 'Archivo', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: none;
+  }
+  .flow-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.75;
+    max-width: 560px;
+  }
+
+  /* DEMO BANNER */
+  .demo-banner {
+    background: var(--terracotta);
+    color: var(--warm-white);
+    padding: 80px 48px;
+    text-align: center;
+  }
+  .demo-banner h2 {
+    font-size: clamp(28px, 5vw, 48px);
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .demo-banner p {
+    font-size: 17px;
+    opacity: 0.85;
+    margin-bottom: 32px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .demo-banner-btn {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 20px 40px;
+    border-radius: 4px;
+    border: none;
+    background: var(--warm-white);
+    color: var(--terracotta);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .demo-banner-btn:hover { transform: translateY(-2px); }
+
+  .footer-cta {
+    padding: 120px 48px;
+    text-align: center;
+    background: var(--sand);
+  }
+  .footer-cta h2 {
+    font-size: clamp(36px, 6vw, 64px);
+    line-height: 1;
+    margin-bottom: 36px;
+  }
+  .footer-cta .waitlist { margin: 0 auto; }
+  .footer-cta .success-msg { margin: 0 auto; }
+
+  footer {
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  /* APP NAV */
+  .app-nav {
+    background: var(--ink);
+    color: var(--warm-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 32px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .app-nav .logo {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .nav-actions { display: flex; gap: 12px; align-items: center; }
+  .nav-btn {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    transition: all 0.2s;
+  }
+  .nav-btn-outline {
+    background: transparent;
+    color: var(--warm-white);
+    border: 1.5px solid rgba(250,246,238,0.4);
+  }
+  .nav-btn-outline:hover { border-color: var(--warm-white); }
+  .nav-btn-fill { background: var(--terracotta); color: var(--warm-white); }
+  .nav-btn-fill:hover { background: #8f3815; }
+
+  .demo-strip {
+    background: var(--gold);
+    color: var(--ink);
+    text-align: center;
+    padding: 8px 16px;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* BROWSE */
+  .browse-header {
+    padding: 40px 32px 24px;
+    border-bottom: 1px solid rgba(26,20,16,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .browse-header h1 {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin: 0;
+  }
+  .item-count {
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+  .filters {
+    padding: 16px 32px;
+    display: flex;
+    gap: 10px;
+    border-bottom: 1px solid rgba(26,20,16,0.1);
+    overflow-x: auto;
+  }
+  .filter-chip {
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1.5px solid rgba(26,20,16,0.2);
+    border-radius: 100px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: transparent;
+    color: var(--ink);
+  }
+  .filter-chip:hover, .filter-chip.active {
+    background: var(--ink);
+    color: var(--warm-white);
+    border-color: var(--ink);
+  }
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1px;
+    background: rgba(26,20,16,0.08);
+    border-top: 1px solid rgba(26,20,16,0.08);
+  }
+  .item-card {
+    background: var(--warm-white);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .item-card:hover { background: var(--sand); }
+  .item-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    background: var(--sand);
+  }
+  .item-info { padding: 16px; }
+  .item-name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .item-meta {
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px;
+    opacity: 0.55;
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+  .item-price {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--terracotta);
+  }
+  .item-condition {
+    display: inline-block;
+    font-family: 'Archivo', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 100px;
+    margin-top: 6px;
+  }
+  .cond-new { background: #e8f5e9; color: #2e7d32; }
+  .cond-like { background: #e3f2fd; color: #1565c0; }
+  .cond-worn { background: var(--sand); color: var(--ink); }
+
+  /* DETAIL */
+  .item-detail { max-width: 900px; margin: 0 auto; padding: 40px 32px; }
+  .back-btn {
+    font-family: 'Archivo', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0.5;
+    margin-bottom: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: none;
+    color: var(--ink);
+  }
+  .back-btn:hover { opacity: 1; }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .detail-img {
+    aspect-ratio: 3/4;
+    background: var(--sand);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 120px;
+  }
+  .detail-right h2 {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    line-height: 1.05;
+  }
+  .detail-price {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    color: var(--terracotta);
+    margin-bottom: 20px;
+  }
+  .detail-seller {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--sand);
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  .seller-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--warm-white);
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .seller-info { flex: 1; }
+  .seller-name { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 14px; }
+  .seller-rating { font-family: 'Archivo', sans-serif; font-size: 12px; opacity: 0.6; }
+  .detail-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .spec-item { padding: 12px; background: var(--sand); border-radius: 6px; }
+  .spec-label {
+    font-family: 'Archivo', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 4px;
+  }
+  .spec-value { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 14px; }
+  .detail-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    opacity: 0.8;
+    margin-bottom: 28px;
+  }
+  .buy-btn {
+    width: 100%;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: none;
+    padding: 20px;
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+    margin-bottom: 12px;
+  }
+  .buy-btn:hover { background: var(--terracotta); }
+  .trust-note {
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    text-align: center;
+    opacity: 0.5;
+    letter-spacing: 0.05em;
+  }
+
+  /* CHECKOUT */
+  .checkout-wrap { max-width: 560px; margin: 0 auto; padding: 40px 32px; }
+  .checkout-wrap h2 {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .checkout-item-preview {
+    display: flex;
+    gap: 16px;
+    padding: 20px;
+    background: var(--sand);
+    border-radius: 8px;
+    margin-bottom: 28px;
+    align-items: center;
+  }
+  .checkout-item-img {
+    width: 72px;
+    height: 72px;
+    background: var(--ink);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    flex-shrink: 0;
+  }
+  .checkout-item-name {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .checkout-item-price {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    color: var(--terracotta);
+  }
+  .checkout-section { margin-bottom: 24px; }
+  .checkout-label {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 10px;
+  }
+  .checkout-input {
+    width: 100%;
+    border: 2px solid rgba(26,20,16,0.15);
+    background: transparent;
+    padding: 14px 16px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    color: var(--ink);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .checkout-input:focus { border-color: var(--ink); }
+  .fee-breakdown {
+    border: 1px solid rgba(26,20,16,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .fee-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 16px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(26,20,16,0.08);
+  }
+  .fee-row:last-child { border-bottom: none; }
+  .fee-row.total { font-weight: 700; background: var(--sand); }
+  .fee-label { opacity: 0.7; }
+  .protection-box {
+    padding: 16px;
+    background: #e8f5e9;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 13px;
+    color: #2e7d32;
+    line-height: 1.5;
+  }
+  .confirm-btn {
+    width: 100%;
+    background: var(--terracotta);
+    color: var(--warm-white);
+    border: none;
+    padding: 20px;
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .confirm-btn:hover { background: #8f3815; }
+
+  /* CONFIRMED */
+  .confirmed-wrap { max-width: 480px; margin: 0 auto; padding: 60px 32px; text-align: center; }
+  .confirmed-icon { font-size: 72px; margin-bottom: 24px; }
+  .confirmed-wrap h2 {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .confirmed-wrap p {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.75;
+    margin-bottom: 32px;
+  }
+  .status-tracker {
+    border: 1px solid rgba(26,20,16,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+  .status-step {
+    display: flex;
+    gap: 16px;
+    padding: 18px 20px;
+    align-items: center;
+    border-bottom: 1px solid rgba(26,20,16,0.08);
+  }
+  .status-step:last-child { border-bottom: none; }
+  .status-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .status-dot.done { background: #e8f5e9; }
+  .status-dot.active { background: var(--terracotta); }
+  .status-dot.pending { background: var(--sand); opacity: 0.5; }
+  .status-text { flex: 1; }
+  .status-title {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .status-sub { font-family: 'Archivo', sans-serif; font-size: 12px; opacity: 0.55; }
+  .browse-more-btn {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 14px 28px;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .browse-more-btn:hover { background: var(--ink); color: var(--warm-white); }
+
+  /* SELL */
+  .sell-wrap { max-width: 560px; margin: 0 auto; padding: 40px 32px; }
+  .sell-wrap h2 {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .sell-wrap .subtitle { font-size: 15px; opacity: 0.65; margin-bottom: 32px; }
+  .sell-step { display: none; }
+  .sell-step.active { display: block; }
+  .step-indicator {
+    font-family: 'Archivo', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 24px;
+  }
+  .photo-upload {
+    border: 2px dashed rgba(26,20,16,0.2);
+    border-radius: 8px;
+    padding: 48px;
+    text-align: center;
+    margin-bottom: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .photo-upload:hover { border-color: var(--terracotta); background: rgba(181,73,31,0.03); }
+  .photo-upload-icon { font-size: 40px; margin-bottom: 12px; }
+  .photo-upload-text {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .photo-upload-sub { font-size: 13px; opacity: 0.5; }
+  .photo-previews {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .photo-preview {
+    aspect-ratio: 1;
+    background: var(--sand);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+  }
+  .condition-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .condition-opt {
+    border: 2px solid rgba(26,20,16,0.15);
+    border-radius: 8px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .condition-opt:hover, .condition-opt.selected {
+    border-color: var(--terracotta);
+    background: rgba(181,73,31,0.05);
+  }
+  .condition-opt-icon { font-size: 24px; margin-bottom: 6px; }
+  .condition-opt-label {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+  .condition-opt-sub { font-size: 11px; opacity: 0.55; margin-top: 2px; }
+  .next-btn {
+    width: 100%;
+    background: var(--ink);
+    color: var(--warm-white);
+    border: none;
+    padding: 18px;
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .next-btn:hover { background: var(--terracotta); }
+  .listing-preview {
+    border: 1px solid rgba(26,20,16,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .listing-preview-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--sand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+  }
+  .listing-preview-info { padding: 20px; }
+  .listing-preview-name {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .listing-preview-price {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+  }
+  .payout-note { font-family: 'Archivo', sans-serif; font-size: 13px; opacity: 0.6; }
+  .listing-live { text-align: center; padding: 48px 0; }
+  .listing-live-icon { font-size: 64px; margin-bottom: 20px; }
+  .listing-live h3 {
+    font-family: 'Archivo Expanded', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .listing-live p { font-size: 15px; opacity: 0.7; line-height: 1.5; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 48px; padding-top: 30px; }
+    .signature-wrap { max-width: 280px; margin: 0 auto; order: -1; }
+    .landing-nav { padding: 22px 24px; flex-wrap: wrap; gap: 12px; }
+    .section, .hero, .footer-cta, .demo-banner { padding-left: 24px; padding-right: 24px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .stats-inner { grid-template-columns: 1fr 1fr; }
+    .stat-cell:nth-child(3) { border-left: none; }
+    .stat-cell { border-top: 1px solid rgba(26,20,16,0.12); }
+    .stat-cell:nth-child(-n+2) { border-top: none; }
+    .waitlist { flex-direction: column; border: none; gap: 12px; }
+    .waitlist input { border: 2px solid var(--ink); }
+    .waitlist button { padding: 16px; }
+    .flow-row { grid-template-columns: 50px 1fr; gap: 16px; }
+    .flow-num { font-size: 28px; }
+    footer { flex-direction: column; gap: 8px; }
+  }
+
+  @media (max-width: 640px) {
+    .detail-grid { grid-template-columns: 1fr; }
+    .app-nav { padding: 16px 20px; }
+    .browse-header, .filters { padding-left: 20px; padding-right: 20px; }
+    .item-detail, .checkout-wrap, .sell-wrap, .confirmed-wrap { padding: 24px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flip-inner { transition: none; }
+  }
+
+  button:focus-visible, input:focus-visible {
+    outline: 3px solid var(--terracotta);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="screen-landing" class="screen active">
+
+  <nav class="landing-nav">
+    <div class="logo">souk<span>.</span></div>
+    <div class="landing-nav-right">
+      <div class="nav-tag">Dubai · coming soon</div>
+      <button class="demo-nav-btn" onclick="showScreen('browse')">Try the demo</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-main">
+      <div class="hero-eyebrow">
+        <div class="dot"></div>
+        <div class="label">Pre-loved clothing, traded properly</div>
+      </div>
+
+      <h1 class="display">Your wardrobe is<br><span class="accent">sitting there</span><br><span class="outline">doing nothing.</span></h1>
+
+      <p class="hero-sub">Souk is a marketplace for selling the clothes you've stopped wearing — list it, someone buys it, <em>it gets picked up.</em> No Dubizzle, no DMs, no meeting a stranger in a car park.</p>
+
+      <div class="hero-ctas">
+        <form class="waitlist" id="waitlistForm">
+          <input type="email" id="emailInput" placeholder="your@email.com" required>
+          <button type="submit">Join the waitlist</button>
+        </form>
+        <div class="success-msg" id="successMsg">You're on the list — we'll let you know when Souk opens.</div>
+        <div class="waitlist-note">No spam. One email when we launch.</div>
+        <button class="try-demo-link" onclick="showScreen('browse')">Or try the app demo <span>&rarr;</span></button>
+      </div>
+    </div>
+
+    <div class="signature-wrap">
+      <div class="flip-card" id="flipCard">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <div class="flip-status">In your cupboard</div>
+            <div class="flip-icon">&#128085;</div>
+            <div>
+              <div class="flip-caption">Worn twice. Forgotten since.</div>
+              <div class="flip-hint">tap to flip</div>
+            </div>
+          </div>
+          <div class="flip-face flip-back">
+            <div class="flip-status">Sold</div>
+            <div class="flip-icon">&#128184;</div>
+            <div>
+              <div class="flip-caption">AED 85 — paid out, picked up.</div>
+              <div class="flip-hint">tap to flip back</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-cell">
+        <div class="stat-num">$1.3bn</div>
+        <div class="stat-desc">GCC secondhand apparel market in 2025 — forecast to hit $4bn by 2035</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">20%</div>
+        <div class="stat-desc">Annual growth of the UAE resale fashion market</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">80%+</div>
+        <div class="stat-desc">Of Dubai residents are expats — wardrobes turn over every move</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">0</div>
+        <div class="stat-desc">Peer-to-peer fashion apps with built-in delivery and payments in Dubai</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section section-dark">
+    <div class="inner">
+      <div class="section-eyebrow">The problem</div>
+      <h2>A market growing 20% a year — and every way to sell in it is broken.</h2>
+      <div class="problem-grid">
+        <div class="problem-cell">
+          <div class="pc-label">Dubizzle &amp; Facebook groups</div>
+          <p>Classifieds built for cars and sofas. No in-app payments, no buyer protection — just DMs, haggling, and meeting strangers with cash.</p>
+        </div>
+        <div class="problem-cell">
+          <div class="pc-label">Luxury consignment</div>
+          <p>The Luxury Closet, Garderobe, Retold — designer-only, commissions up to 40%, and payouts often in store credit. Your everyday wardrobe doesn't qualify.</p>
+        </div>
+        <div class="problem-cell">
+          <div class="pc-label">Flea markets &amp; pop-ups</div>
+          <p>Rent a table, haul everything to Zabeel Park, stand there all evening. Physical, one day only, and capped at whoever walks past.</p>
+        </div>
+        <div class="problem-cell">
+          <div class="pc-label">Vinted &amp; Depop</div>
+          <p>The apps that solved this elsewhere don't operate properly here — no shipping integration in the UAE, so sellers end up booking their own couriers anyway.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-eyebrow">How it works</div>
+    <h2>List it. Someone buys it. It gets collected. You get paid.</h2>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-num display">01</div>
+        <div class="flow-content">
+          <h3>Photograph it, list it</h3>
+          <p>Snap a few photos, set a price, post it. Takes less time than writing the WhatsApp message you'd send instead.</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num display">02</div>
+        <div class="flow-content">
+          <h3>Someone buys it in-app</h3>
+          <p>Payment happens on Souk, not over a bank transfer with a stranger. The buyer's money is held until the item actually arrives.</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num display">03</div>
+        <div class="flow-content">
+          <h3>A rider collects it from your door</h3>
+          <p>No printing labels, no driving to a drop-off point. Someone comes to you, picks it up, takes it to the buyer.</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num display">04</div>
+        <div class="flow-content">
+          <h3>You get paid</h3>
+          <p>Once it's delivered, the money lands with you. Souk takes a small buyer protection fee — that's it, no listing fees.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo-banner">
+    <h2 class="display">See it in action.</h2>
+    <p>Browse listings, buy an item, list your own — try the full experience right now.</p>
+    <button class="demo-banner-btn" onclick="showScreen('browse')">Try the app demo &rarr;</button>
+  </section>
+
+  <section class="footer-cta">
+    <h2 class="display">Be first<br>through the door.</h2>
+    <form class="waitlist" id="waitlistForm2">
+      <input type="email" id="emailInput2" placeholder="your@email.com" required>
+      <button type="submit">Join the waitlist</button>
+    </form>
+    <div class="success-msg" id="successMsg2">You're on the list — we'll let you know when Souk opens.</div>
+  </section>
+
+  <footer>
+    <div>Souk — Dubai</div>
+    <div>Coming soon</div>
+  </footer>
+
+</div>
+
+<!-- APP DEMO -->
+<div id="app-shell" style="display:none">
+
+  <div class="demo-strip">Demo mode — no real listings or payments yet &middot; <span style="text-decoration:underline;cursor:pointer" onclick="showScreen('landing')">back to Souk</span></div>
+
+  <nav class="app-nav">
+    <div class="logo" onclick="showScreen('landing')">souk<span>.</span></div>
+    <div class="nav-actions">
+      <button class="nav-btn nav-btn-outline" onclick="showScreen('browse')">Browse</button>
+      <button class="nav-btn nav-btn-fill" onclick="startSell()">Sell</button>
+    </div>
+  </nav>
+
+  <div id="screen-browse" class="screen">
+    <div class="browse-header">
+      <h1 class="display">All Listings</h1>
+      <div class="item-count">12 items</div>
+    </div>
+    <div class="filters">
+      <button class="filter-chip active">All</button>
+      <button class="filter-chip">Tops</button>
+      <button class="filter-chip">Bottoms</button>
+      <button class="filter-chip">Outerwear</button>
+      <button class="filter-chip">Shoes</button>
+      <button class="filter-chip">Accessories</button>
+    </div>
+    <div class="items-grid" id="itemsGrid"></div>
+  </div>
+
+  <div id="screen-detail" class="screen">
+    <div class="item-detail">
+      <button class="back-btn" onclick="showScreen('browse')">&larr; Back</button>
+      <div class="detail-grid">
+        <div class="detail-img" id="detailImg"></div>
+        <div class="detail-right">
+          <h2 id="detailName"></h2>
+          <div class="detail-price" id="detailPrice"></div>
+          <div class="detail-seller">
+            <div class="seller-avatar" id="sellerAvatar"></div>
+            <div class="seller-info">
+              <div class="seller-name" id="sellerName"></div>
+              <div class="seller-rating" id="sellerRating"></div>
+            </div>
+          </div>
+          <div class="detail-specs" id="detailSpecs"></div>
+          <p class="detail-desc" id="detailDesc"></p>
+          <button class="buy-btn" id="buyBtn">Buy Now &mdash; <span id="buyPrice"></span></button>
+          <div class="trust-note">Payment held securely until delivery. Rider collects from seller.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="screen-checkout" class="screen">
+    <div class="checkout-wrap">
+      <button class="back-btn" onclick="showScreen('detail')">&larr; Back</button>
+      <h2 class="display">Checkout</h2>
+      <div class="checkout-item-preview">
+        <div class="checkout-item-img" id="checkoutImg"></div>
+        <div>
+          <div class="checkout-item-name" id="checkoutName"></div>
+          <div class="checkout-item-price" id="checkoutPrice"></div>
+        </div>
+      </div>
+      <div class="checkout-section">
+        <div class="checkout-label">Delivery address</div>
+        <input class="checkout-input" placeholder="Apartment / Villa number" type="text">
+        <input class="checkout-input" placeholder="Street / Building name" type="text">
+        <input class="checkout-input" placeholder="Area (e.g. JLT, Jumeirah, DIFC)" type="text">
+      </div>
+      <div class="fee-breakdown">
+        <div class="fee-row"><span class="fee-label">Item price</span><span id="feeItem"></span></div>
+        <div class="fee-row"><span class="fee-label">Buyer protection fee (5%)</span><span id="feeProt"></span></div>
+        <div class="fee-row"><span class="fee-label">Delivery</span><span>AED 15</span></div>
+        <div class="fee-row total"><span>Total</span><span id="feeTotal"></span></div>
+      </div>
+      <div class="protection-box">
+        &#10003; Your payment is held securely until the item is delivered. If it doesn't arrive or doesn't match the listing, you get a full refund.
+      </div>
+      <button class="confirm-btn" onclick="showScreen('confirmed')">Confirm &amp; Pay</button>
+    </div>
+  </div>
+
+  <div id="screen-confirmed" class="screen">
+    <div class="confirmed-wrap">
+      <div class="confirmed-icon">&#127881;</div>
+      <h2 class="display">Order placed</h2>
+      <p>Your payment is held securely. A rider will collect the item from the seller and bring it to your door — usually within 24 hours.</p>
+      <div class="status-tracker">
+        <div class="status-step">
+          <div class="status-dot done">&#10003;</div>
+          <div class="status-text">
+            <div class="status-title">Payment secured</div>
+            <div class="status-sub">Funds held until delivery</div>
+          </div>
+        </div>
+        <div class="status-step">
+          <div class="status-dot active">&#128757;</div>
+          <div class="status-text">
+            <div class="status-title">Rider collecting from seller</div>
+            <div class="status-sub">Est. pickup within 2 hours</div>
+          </div>
+        </div>
+        <div class="status-step">
+          <div class="status-dot pending">&#128230;</div>
+          <div class="status-text">
+            <div class="status-title">On the way to you</div>
+            <div class="status-sub">Pending</div>
+          </div>
+        </div>
+        <div class="status-step">
+          <div class="status-dot pending">&#10003;</div>
+          <div class="status-text">
+            <div class="status-title">Delivered — seller paid out</div>
+            <div class="status-sub">Pending</div>
+          </div>
+        </div>
+      </div>
+      <button class="browse-more-btn" onclick="showScreen('browse')">Keep browsing</button>
+    </div>
+  </div>
+
+  <div id="screen-sell" class="screen">
+    <div class="sell-wrap">
+      <button class="back-btn" onclick="showScreen('browse')">&larr; Back</button>
+      <h2 class="display">List an item</h2>
+      <p class="subtitle">Takes 2 minutes. A rider collects it when it sells.</p>
+
+      <div class="sell-step active" id="sell-step-1">
+        <div class="step-indicator">Step 1 of 3 — Photos</div>
+        <div class="photo-upload" onclick="simulatePhotoUpload()">
+          <div class="photo-upload-icon">&#128248;</div>
+          <div class="photo-upload-text">Tap to add photos</div>
+          <div class="photo-upload-sub">Add up to 6 photos</div>
+        </div>
+        <div class="photo-previews" id="photoPreviews" style="display:none">
+          <div class="photo-preview">&#128085;</div>
+          <div class="photo-preview">&#128085;</div>
+          <div class="photo-preview">+</div>
+        </div>
+        <button class="next-btn" id="photoNextBtn" onclick="goSellStep(2)" style="opacity:0.3;pointer-events:none">Next</button>
+      </div>
+
+      <div class="sell-step" id="sell-step-2">
+        <div class="step-indicator">Step 2 of 3 — Details</div>
+        <div class="checkout-section">
+          <div class="checkout-label">Item name</div>
+          <input class="checkout-input" placeholder="e.g. Zara linen shirt, size M" type="text" id="sellName">
+        </div>
+        <div class="checkout-section">
+          <div class="checkout-label">Condition</div>
+          <div class="condition-options">
+            <div class="condition-opt" onclick="selectCondition(this)">
+              <div class="condition-opt-icon">&#10024;</div>
+              <div class="condition-opt-label">New</div>
+              <div class="condition-opt-sub">Tags still on</div>
+            </div>
+            <div class="condition-opt" onclick="selectCondition(this)">
+              <div class="condition-opt-icon">&#128076;</div>
+              <div class="condition-opt-label">Like new</div>
+              <div class="condition-opt-sub">Worn once or twice</div>
+            </div>
+            <div class="condition-opt" onclick="selectCondition(this)">
+              <div class="condition-opt-icon">&#128077;</div>
+              <div class="condition-opt-label">Good</div>
+              <div class="condition-opt-sub">Some wear, no damage</div>
+            </div>
+          </div>
+        </div>
+        <div class="checkout-section">
+          <div class="checkout-label">Your price (AED)</div>
+          <input class="checkout-input" placeholder="e.g. 120" type="number" id="sellPrice">
+        </div>
+        <button class="next-btn" onclick="goSellStep(3)">Preview listing</button>
+      </div>
+
+      <div class="sell-step" id="sell-step-3">
+        <div class="step-indicator">Step 3 of 3 — Preview &amp; publish</div>
+        <div class="listing-preview">
+          <div class="listing-preview-img">&#128085;</div>
+          <div class="listing-preview-info">
+            <div class="listing-preview-name" id="previewName">Your item</div>
+            <div class="listing-preview-price" id="previewPrice">AED &mdash;</div>
+            <div class="payout-note" id="previewPayout">You receive: AED &mdash;</div>
+          </div>
+        </div>
+        <button class="next-btn" onclick="goSellStep(4)">Publish listing</button>
+      </div>
+
+      <div class="sell-step" id="sell-step-4">
+        <div class="listing-live">
+          <div class="listing-live-icon">&#128640;</div>
+          <h3 class="display">You're live</h3>
+          <p>Your listing is now visible to buyers. When someone buys it, you'll get a notification and a rider will arrange collection from your address.</p>
+        </div>
+        <button class="next-btn" onclick="showScreen('browse')">Back to browse</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const items = [
+  { id: 1, name: "Zara Linen Shirt", emoji: "\uD83D\uDC54", price: 85, size: "M", brand: "Zara", condition: "like", desc: "Worn twice, perfect condition. Light beige linen, ideal for Dubai heat.", seller: "Sara M.", sellerInit: "SM", rating: "4.9 \u2605 (12 sales)", category: "Tops" },
+  { id: 2, name: "Nike Air Max 270", emoji: "\uD83D\uDC5F", price: 320, size: "42", brand: "Nike", condition: "worn", desc: "Still plenty of life left. White colourway, minor sole wear only.", seller: "Khalid R.", sellerInit: "KR", rating: "5.0 \u2605 (8 sales)", category: "Shoes" },
+  { id: 3, name: "H&M Oversized Blazer", emoji: "\uD83E\uDDE5", price: 140, size: "L", brand: "H&M", condition: "new", desc: "Never worn, tags still attached. Grey check pattern, great for work.", seller: "Nour A.", sellerInit: "NA", rating: "4.8 \u2605 (5 sales)", category: "Outerwear" },
+  { id: 4, name: "Adidas Track Pants", emoji: "\uD83D\uDC56", price: 110, size: "S", brand: "Adidas", condition: "like", desc: "Black three-stripe classic. Worn a handful of times, no marks.", seller: "Omar J.", sellerInit: "OJ", rating: "4.7 \u2605 (20 sales)", category: "Bottoms" },
+  { id: 5, name: "Mango Floral Dress", emoji: "\uD83D\uDC57", price: 95, size: "XS", brand: "Mango", condition: "like", desc: "Flowy midi dress, perfect for brunch. Worn once to a wedding.", seller: "Layla K.", sellerInit: "LK", rating: "5.0 \u2605 (3 sales)", category: "Tops" },
+  { id: 6, name: "Ray-Ban Wayfarers", emoji: "\uD83D\uDD76\uFE0F", price: 220, size: "One size", brand: "Ray-Ban", condition: "worn", desc: "Classic black frame, minor scratches on lens. Case included.", seller: "Hassan B.", sellerInit: "HB", rating: "4.6 \u2605 (15 sales)", category: "Accessories" },
+  { id: 7, name: "Pull&Bear Hoodie", emoji: "\uD83E\uDDE5", price: 75, size: "M", brand: "Pull&Bear", condition: "worn", desc: "Soft grey hoodie, well-loved but no holes or stains.", seller: "Yusuf T.", sellerInit: "YT", rating: "4.9 \u2605 (7 sales)", category: "Tops" },
+  { id: 8, name: "New Balance 574", emoji: "\uD83D\uDC5F", price: 280, size: "41", brand: "New Balance", condition: "new", desc: "Brand new, worn once indoors only. Navy/white colourway.", seller: "Rina S.", sellerInit: "RS", rating: "5.0 \u2605 (11 sales)", category: "Shoes" },
+  { id: 9, name: "Stradivarius Mini Skirt", emoji: "\uD83D\uDC58", price: 60, size: "S", brand: "Stradivarius", condition: "like", desc: "Denim mini, worn twice. Great with a white tee.", seller: "Dana F.", sellerInit: "DF", rating: "4.8 \u2605 (4 sales)", category: "Bottoms" },
+  { id: 10, name: "Levi's 501 Jeans", emoji: "\uD83D\uDC56", price: 195, size: "30x32", brand: "Levi's", condition: "worn", desc: "Classic straight fit. Faded naturally, no rips.", seller: "Tariq M.", sellerInit: "TM", rating: "4.7 \u2605 (9 sales)", category: "Bottoms" },
+  { id: 11, name: "Gucci Belt", emoji: "\uD83D\uDC5C", price: 450, size: "85cm", brand: "Gucci", condition: "like", desc: "Authentic, bought in Dubai Mall. Minor buckle scuffs only.", seller: "Farah H.", sellerInit: "FH", rating: "5.0 \u2605 (2 sales)", category: "Accessories" },
+  { id: 12, name: "Bershka Cargo Pants", emoji: "\uD83E\uDE73", price: 90, size: "L", brand: "Bershka", condition: "new", desc: "Never worn. Khaki, lots of pockets, very on trend.", seller: "Ziad N.", sellerInit: "ZN", rating: "4.9 \u2605 (6 sales)", category: "Bottoms" }
+];
+
+let currentItem = null;
+
+const condMap = { new: "New with tags", like: "Like new", worn: "Good condition" };
+const condClass = { new: "cond-new", like: "cond-like", worn: "cond-worn" };
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  if (name === 'landing') {
+    document.getElementById('app-shell').style.display = 'none';
+    document.getElementById('screen-landing').classList.add('active');
+  } else {
+    document.getElementById('app-shell').style.display = 'block';
+    document.getElementById('screen-' + name).classList.add('active');
+  }
+  window.scrollTo(0, 0);
+}
+
+function renderItems() {
+  const grid = document.getElementById('itemsGrid');
+  grid.innerHTML = items.map(item => `
+    <div class="item-card" onclick="openItem(${item.id})">
+      <div class="item-img">${item.emoji}</div>
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-meta">${item.brand} &middot; Size ${item.size}</div>
+        <div class="item-price">AED ${item.price}</div>
+        <span class="item-condition ${condClass[item.condition]}">${condMap[item.condition]}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openItem(id) {
+  currentItem = items.find(i => i.id === id);
+  document.getElementById('detailImg').textContent = currentItem.emoji;
+  document.getElementById('detailName').textContent = currentItem.name;
+  document.getElementById('detailPrice').textContent = `AED ${currentItem.price}`;
+  document.getElementById('sellerAvatar').textContent = currentItem.sellerInit;
+  document.getElementById('sellerName').textContent = currentItem.seller;
+  document.getElementById('sellerRating').textContent = currentItem.rating;
+  document.getElementById('detailDesc').textContent = currentItem.desc;
+  document.getElementById('buyBtn').onclick = () => openCheckout();
+  document.getElementById('buyPrice').textContent = `AED ${currentItem.price}`;
+  document.getElementById('detailSpecs').innerHTML = `
+    <div class="spec-item"><div class="spec-label">Brand</div><div class="spec-value">${currentItem.brand}</div></div>
+    <div class="spec-item"><div class="spec-label">Size</div><div class="spec-value">${currentItem.size}</div></div>
+    <div class="spec-item"><div class="spec-label">Condition</div><div class="spec-value">${condMap[currentItem.condition]}</div></div>
+    <div class="spec-item"><div class="spec-label">Category</div><div class="spec-value">${currentItem.category}</div></div>
+  `;
+  showScreen('detail');
+}
+
+function openCheckout() {
+  if (!currentItem) return;
+  document.getElementById('checkoutImg').textContent = currentItem.emoji;
+  document.getElementById('checkoutName').textContent = currentItem.name;
+  document.getElementById('checkoutPrice').textContent = `AED ${currentItem.price}`;
+  document.getElementById('feeItem').textContent = `AED ${currentItem.price}`;
+  const prot = Math.round(currentItem.price * 0.05);
+  document.getElementById('feeProt').textContent = `AED ${prot}`;
+  document.getElementById('feeTotal').textContent = `AED ${currentItem.price + prot + 15}`;
+  showScreen('checkout');
+}
+
+function startSell() {
+  document.querySelectorAll('.sell-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('sell-step-1').classList.add('active');
+  document.getElementById('photoPreviews').style.display = 'none';
+  document.getElementById('photoNextBtn').style.opacity = '0.3';
+  document.getElementById('photoNextBtn').style.pointerEvents = 'none';
+  showScreen('sell');
+}
+
+function simulatePhotoUpload() {
+  document.getElementById('photoPreviews').style.display = 'grid';
+  document.getElementById('photoNextBtn').style.opacity = '1';
+  document.getElementById('photoNextBtn').style.pointerEvents = 'auto';
+}
+
+function goSellStep(step) {
+  document.querySelectorAll('.sell-step').forEach(s => s.classList.remove('active'));
+  if (step === 3) {
+    const name = document.getElementById('sellName').value || 'Your item';
+    const price = parseInt(document.getElementById('sellPrice').value) || 0;
+    const payout = Math.round(price * 0.9);
+    document.getElementById('previewName').textContent = name;
+    document.getElementById('previewPrice').textContent = `AED ${price}`;
+    document.getElementById('previewPayout').textContent = `You receive: AED ${payout} (after 10% Souk fee)`;
+  }
+  document.getElementById('sell-step-' + step).classList.add('active');
+}
+
+function selectCondition(el) {
+  document.querySelectorAll('.condition-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+document.querySelectorAll('.filter-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+
+const flipCard = document.getElementById('flipCard');
+flipCard.addEventListener('click', () => {
+  flipCard.classList.toggle('flipped');
+});
+
+function handleSubmit(formId, successId) {
+  const form = document.getElementById(formId);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.style.display = 'none';
+    document.getElementById(successId).style.display = 'block';
+  });
+}
+handleSubmit('waitlistForm', 'successMsg');
+handleSubmit('waitlistForm2', 'successMsg2');
+
+renderItems();
+</script>
+
+</body>
+</html>
